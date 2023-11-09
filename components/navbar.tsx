@@ -1,15 +1,15 @@
-import { Input } from "@nextui-org/input";
 import { Kbd } from "@nextui-org/kbd";
-import { Link } from "@nextui-org/link";
 import {
+	Input,
+	Link,
 	NavbarBrand,
 	NavbarContent,
 	NavbarItem,
 	NavbarMenu,
 	NavbarMenuItem,
 	NavbarMenuToggle,
-	Navbar as NextUINavbar,
-} from "@nextui-org/navbar";
+	Navbar as NextUINavbar
+} from "@nextui-org/react";
 
 import { link as linkStyles } from "@nextui-org/theme";
 

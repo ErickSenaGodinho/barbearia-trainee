@@ -7,9 +7,9 @@ import { Button } from "@nextui-org/button";
 
 
 import { Divider } from "@nextui-org/divider";
-import { Input, Link } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 
-export default function Register() {
+export default function Login() {
     return (
         <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
             <div className="inline-block max-w-lg text-center justify-center">
@@ -17,20 +17,13 @@ export default function Register() {
                 <h2 className={subtitle()}>Digite suas credenciais para acessar sua conta</h2>
                 <div className="my-5">
                     <form action="" className="flex flex-col items-center text-left justify-center gap-5 ">
-                        <Input
-                            isRequired
-                            type="text"
-                            label="Nome"
-                            placeholder="Digite seu nome"
-                            labelPlacement="outside"
-                        />
                         <EmailInput />
                         <PasswordInput />
-                        <Button color="primary" variant="shadow" className="w-full text-base">Registrar</Button>
+                        <Button color="primary" variant="shadow" className="w-full text-base">Login</Button>
                     </form>
                 </div>
                 <Divider orientation="horizontal" className="mb-5" />
-                <span>Já possui cadastro? <Link href="/login">Login</Link></span>
+                <span>Não possui cadastro? <Link href="/register">Registrar</Link></span>
             </div>
         </section>
     )
