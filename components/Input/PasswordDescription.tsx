@@ -2,9 +2,9 @@ interface PasswordDescriptionProps {
     failedValidationList: any[]
 }
 
-export default function PasswordDescription({ failedValidationList }: PasswordDescriptionProps) {
+export default function PasswordDescription({ failedValidationList }: Readonly<PasswordDescriptionProps>) {
     return (
-        failedValidationList.length > 0 && <ul>
+        <ul>
             {
                 failedValidationList.map((desc) => {
                     return (

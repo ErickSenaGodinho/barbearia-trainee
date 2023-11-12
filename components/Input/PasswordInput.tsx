@@ -50,7 +50,7 @@ export default function PasswordInput() {
             onValueChange={setPassword}
             type={isEyeVisible ? "text" : "password"}
             description={
-                Array.isArray(failedValidation) && <PasswordDescription failedValidationList={failedValidation} />
+                Array.isArray(failedValidation) && failedValidation.length > 0 && <PasswordDescription failedValidationList={failedValidation} />
             }
             endContent={
                 <button className="focus:outline-none" type="button" onClick={toggleEyeVisibility} >
