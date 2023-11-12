@@ -1,28 +1,28 @@
 'use client'
 
 import { Input } from "@nextui-org/react";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 
 export default function EmailInput() {
 
     const [email, setEmail] = useState<string>("");
 
-    const validateEmail = (email: string) => RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i).exec(email);
+    const validateEmail = () => RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/i).exec(email);
 
-    const isInvalid = useMemo(() => {
+    function isInvalid() {
         if (email === "") return false;
-        return !validateEmail(email);
-    }, [email]);
+        return !validateEmail();
+    }
 
-    const color = useMemo<"default" | "danger" | "success">(() => {
+    function getColor() {
         if (email === "") {
             return "default";
         }
-        if (isInvalid) {
+        if (isInvalid()) {
             return "danger";
         }
         return "success";
-    }, [isInvalid, email])
+    }
 
     return (
         <Input
@@ -30,9 +30,9 @@ export default function EmailInput() {
             type="email"
             label="Email"
             placeholder="Digite seu email"
-            isInvalid={isInvalid}
-            color={color}
-            errorMessage={isInvalid && "Insira um email válido"}
+            isInvalid={isInvalid()}
+            color={getColor()}
+            errorMessage={isInvalid() && "Insira um email válido"}
             labelPlacement="outside"
             onValueChange={setEmail}
         />
