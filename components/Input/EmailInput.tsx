@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export default function EmailInput() {
 
-    const [email, setEmail] = useState<string>("");
+    const [email, setEmail] = useState('');
 
     const validateEmail = () => RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/i).exec(email);
 

@@ -4,6 +4,7 @@ import { Input } from "@nextui-org/react";
 import { IconEyeFilled, IconEyeOff } from "@tabler/icons-react";
 import { default as PasswordValidator, default as passwordValidator } from "password-validator";
 import { useMemo, useState } from "react";
+import PasswordDescription from "./PasswordDescription";
 
 export default function PasswordInput() {
 
@@ -12,22 +13,31 @@ export default function PasswordInput() {
         newSchema
             .is().min(8, "Mínimo de 8 caracteres")
             .is().max(100, "Máximo de 100 caracteres")
-            .has().symbols(undefined, "Deve conter um caracter especial")
-            .has().uppercase(undefined, "Deve conter um caracter maiúsculo")
-            .has().lowercase(undefined, "Deve conter um caracter minúsculo")
+            .has().symbols(undefined, "Deve conter um caractere especial")
+            .has().uppercase(undefined, "Deve conter um caractere maiúsculo")
+            .has().lowercase(undefined, "Deve conter um caractere minúsculo")
             .has().not().spaces(undefined, "Não deve conter espaços");
         return newSchema;
     }, [])
 
-    const [isVisible, setIsVisible] = useState<boolean>(false);
+    const [password, setPassword] = useState('');
+    const [isEyeVisible, setIsEyeVisible] = useState(false);
+    const toggleEyeVisibility = () => setIsEyeVisible((prev) => !prev);
+    const failedValidation = password === "" ? false : schema.validate(password, { details: true });
 
-    const toggleVisibility = () => setIsVisible((value) => !value);
+    function isInvalid() {
+        return ((Array.isArray(failedValidation) && failedValidation.length > 0) || (typeof failedValidation === 'boolean' && failedValidation));
+    }
 
-    const [failedValidationList, setFailedValidationList] = useState<boolean | any[]>([]);
-
-    const validadePassword = (value: string) => {
-        setFailedValidationList(value === "" ? false : schema.validate(value, { details: true }));
-    };
+    function getColor() {
+        if (password === "") {
+            return "default";
+        }
+        if (isInvalid()) {
+            return "danger";
+        }
+        return "success";
+    }
 
     return (
         <Input
@@ -35,25 +45,22 @@ export default function PasswordInput() {
             label="Senha"
             placeholder="Digite sua senha"
             labelPlacement="outside"
-            endContent={
-                <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                    {isVisible ? (
-                        <IconEyeOff className="text-2xl text-default-400 pointer-events-none" />
-                    ) : (
-                        <IconEyeFilled className="text-2xl text-default-400 pointer-events-none" />
-                    )}
-                </button>
-            }
-            onValueChange={validadePassword}
-            type={isVisible ? "text" : "password"}
+            isInvalid={isInvalid()}
+            color={getColor()}
+            onValueChange={setPassword}
+            type={isEyeVisible ? "text" : "password"}
             description={
-                Array.isArray(failedValidationList) && failedValidationList.length > 0 && failedValidationList.map((desc) => {
-                    return (
-                        <ul key={desc.validation} >
-                            <li>{desc.message}</li>
-                        </ul>
-                    )
-                })
+                Array.isArray(failedValidation) && <PasswordDescription failedValidationList={failedValidation} />
+            }
+            endContent={
+                <button className="focus:outline-none" type="button" onClick={toggleEyeVisibility} >
+                    {
+                        isEyeVisible ? (
+                            <IconEyeOff className="text-2xl text-default-400 pointer-events-none" />
+                        ) : (
+                            <IconEyeFilled className="text-2xl text-default-400 pointer-events-none" />
+                        )}
+                </button>
             }
         />
     )
