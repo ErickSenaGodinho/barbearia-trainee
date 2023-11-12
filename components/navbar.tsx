@@ -1,7 +1,7 @@
+import { Input } from "@nextui-org/input";
 import { Kbd } from "@nextui-org/kbd";
+import { Link } from "@nextui-org/link";
 import {
-	Input,
-	Link,
 	NavbarBrand,
 	NavbarContent,
 	NavbarItem,
@@ -9,7 +9,7 @@ import {
 	NavbarMenuItem,
 	NavbarMenuToggle,
 	Navbar as NextUINavbar
-} from "@nextui-org/react";
+} from "@nextui-org/navbar";
 
 import { link as linkStyles } from "@nextui-org/theme";
 

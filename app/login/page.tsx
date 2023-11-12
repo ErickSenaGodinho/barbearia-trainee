@@ -1,13 +1,9 @@
-'use client'
-
 import EmailInput from "@/components/Input/EmailInput";
 import PasswordInput from "@/components/Input/PasswordInput";
 import { subtitle, title } from "@/components/primitives";
 import { Button } from "@nextui-org/button";
-
-
 import { Divider } from "@nextui-org/divider";
-import { Link } from "@nextui-org/react";
+import { Link } from "@nextui-org/link";
 
 export default function Login() {
     return (

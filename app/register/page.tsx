@@ -1,13 +1,10 @@
-'use client'
-
 import EmailInput from "@/components/Input/EmailInput";
 import PasswordInput from "@/components/Input/PasswordInput";
 import { subtitle, title } from "@/components/primitives";
 import { Button } from "@nextui-org/button";
-
-
 import { Divider } from "@nextui-org/divider";
-import { Input, Link } from "@nextui-org/react";
+import { Input } from "@nextui-org/input";
+import { Link } from "@nextui-org/link";
 
 export default function Register() {
     return (
