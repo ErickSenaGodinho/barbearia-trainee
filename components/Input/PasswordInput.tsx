@@ -1,6 +1,6 @@
 'use client'
 
-import { Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/input";
 import { IconEyeFilled, IconEyeOff } from "@tabler/icons-react";
 import { default as PasswordValidator, default as passwordValidator } from "password-validator";
 import { useMemo, useState } from "react";

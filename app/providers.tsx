@@ -12,7 +12,7 @@ export interface ProvidersProps {
 	themeProps?: ThemeProviderProps;
 }
 
-export function Providers({ children, themeProps }: ProvidersProps) {
+export function Providers({ children, themeProps }: Readonly<ProvidersProps>) {
 
 	const router = useRouter();
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { SwitchProps, useSwitch } from "@nextui-org/react";
+import { SwitchProps, useSwitch } from "@nextui-org/switch";
 import { useIsSSR } from "@react-aria/ssr";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
 import { IconMoonFilled, IconSunFilled } from "@tabler/icons-react";
