@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>BarbeariaTrainee</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript" src="script.js"></script>
+</head>
+
+<body>
+    <div id="nav">
+        BarbeariaTrainee
+    </div>
+    <section id="table">
+        <form method="POST">
+            <div id="data-insert">
+                <input id="name" class="insert-text" placeholder="Nome" type="text" required />
+                <input id="email" class="insert-text" placeholder="Email" type="email" required />
+                <input id="phone" class="insert-text" placeholder="Telefone" type="text" required />
+                <input id="day" class="insert-text" placeholder="Data" type="date" required />
+                <input id="hour" class="insert-text" placeholder="Horário" type="time" required />
+                <label for="service-choice">Serviço</label>
+                <select name="serviço" id="service-choice">
+                    <option value="corte">Corte</option>
+                    <option value="barba">Barba</option>
+                </select>
+                <input type="submit" value="Cadastrar"/>
+            </div>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Data</th>
+                    <th>Horário</th>
+                </tr>
+            </thead>
+        </table>
+    </section>
+</body>
+
+</html>
