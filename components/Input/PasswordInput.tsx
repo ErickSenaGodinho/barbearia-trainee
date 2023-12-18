@@ -3,10 +3,15 @@
 import { Input } from "@nextui-org/input";
 import { IconEyeFilled, IconEyeOff } from "@tabler/icons-react";
 import { default as PasswordValidator, default as passwordValidator } from "password-validator";
-import { useMemo, useState } from "react";
+import { Ref, useMemo, useState } from "react";
 import PasswordDescription from "./PasswordDescription";
 
-export default function PasswordInput() {
+interface PasswordInputProps {
+    baseRef?: Ref<HTMLDivElement>
+    inputRef?: Ref<HTMLInputElement>
+}
+
+export default function PasswordInput({ baseRef, inputRef }: Readonly<PasswordInputProps>) {
 
     const schema = useMemo(() => {
         const newSchema: PasswordValidator = new passwordValidator();
@@ -49,6 +54,8 @@ export default function PasswordInput() {
             color={getColor()}
             onValueChange={setPassword}
             type={isEyeVisible ? "text" : "password"}
+            baseRef={baseRef}
+            ref={inputRef}
             description={
                 Array.isArray(failedValidation) && failedValidation.length > 0 && <PasswordDescription failedValidationList={failedValidation} />
             }

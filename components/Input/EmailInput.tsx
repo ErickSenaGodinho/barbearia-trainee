@@ -1,13 +1,19 @@
 'use client'
 
 import { Input } from "@nextui-org/react";
-import { useState } from "react";
+import { Ref, useState } from "react";
 
-export default function EmailInput() {
+interface EmailInputProps {
+    baseRef?: Ref<HTMLDivElement>
+    inputRef?: Ref<HTMLInputElement>
+}
+
+export default function EmailInput({ baseRef, inputRef }: Readonly<EmailInputProps>) {
 
     const [email, setEmail] = useState('');
-
     const validateEmail = () => RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/i).exec(email);
+
+    console.log("Email Rendered");
 
     function isInvalid() {
         if (email === "") return false;
@@ -35,6 +41,8 @@ export default function EmailInput() {
             errorMessage={isInvalid() && "Insira um email válido"}
             labelPlacement="outside"
             onValueChange={setEmail}
+            baseRef={baseRef}
+            ref={inputRef}
         />
     )
 }
