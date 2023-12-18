@@ -8,7 +8,7 @@ import {
 	NavbarMenu,
 	NavbarMenuItem,
 	NavbarMenuToggle,
-	Navbar as NextUINavbar,
+	Navbar as NextUINavbar
 } from "@nextui-org/navbar";
 
 import { link as linkStyles } from "@nextui-org/theme";

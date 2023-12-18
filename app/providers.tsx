@@ -1,18 +1,23 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { NextUIProvider } from "@nextui-org/system";
+import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
+import { useRouter } from 'next/navigation';
+import * as React from "react";
+
 
 export interface ProvidersProps {
 	children: React.ReactNode;
 	themeProps?: ThemeProviderProps;
 }
 
-export function Providers({ children, themeProps }: ProvidersProps) {
+export function Providers({ children, themeProps }: Readonly<ProvidersProps>) {
+
+	const router = useRouter();
+
 	return (
-		<NextUIProvider>
+		<NextUIProvider navigate={router.push}>
 			<NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
 		</NextUIProvider>
 	);
