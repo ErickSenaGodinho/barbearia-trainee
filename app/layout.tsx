@@ -1,11 +1,11 @@
-import "@/styles/globals.css";
-import { Metadata } from "next";
-import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
-import { Providers } from "./providers";
 import { Navbar } from "@/components/navbar";
+import { fontSans } from "@/config/fonts";
+import { siteConfig } from "@/config/site";
+import "@/styles/globals.css";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
+import { Metadata } from "next";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
 	title: {
@@ -24,11 +24,7 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head />
@@ -48,11 +44,11 @@ export default function RootLayout({
 							<Link
 								isExternal
 								className="flex items-center gap-1 text-current"
-								href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
-								title="nextui.org homepage"
+								href={siteConfig.links.github}
+								title="GitHub Erick Sena"
 							>
-								<span className="text-default-600">Powered by</span>
-								<p className="text-primary">NextUI</p>
+								<span className="text-default-600">Made by</span>
+								<p className="text-primary">Erick Sena Godinho</p>
 							</Link>
 						</footer>
 					</div>
