@@ -2,88 +2,66 @@
 
 import { Button } from "@nextui-org/button";
 import { useDisclosure } from "@nextui-org/modal";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableColumn,
-    TableHeader,
-    TableRow,
-} from "@nextui-org/table";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
 import { IconPlus } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import SchedulerCell from "./SchedulerCell";
 import SchedulerModal from "./SchedulerModal";
 
-export default function Scheduler() {
+interface DatesProps {
+    id: number,
+    day: string,
+    attendances: any[] | null
+}
 
-    const dates = [
-        {
-            id: 0,
-            day: "Sun",
-            attendances: [
-                {
-                    id: 34,
-                    start: '13:00',
-                    end: '13:45',
-                    customer: 'Joao',
-                    performed: false,
-                },
-                {
-                    id: 36,
-                    start: '13:30',
-                    end: '13:45',
-                    customer: 'Teste',
-                    performed: false,
+interface SchedulerProps {
+    user: any
+}
+
+export default function Scheduler({ user }: SchedulerProps) {
+
+    const [dateBase, setDateBase] = useState(new Date(Date.now()));
+
+    const router = useRouter();
+
+    function getLastSundayAndNextSaturday(dateBase: Date) {
+        const lastSunday = new Date(dateBase.setDate(dateBase.getDate() - dateBase.getDay()));
+        const nextSaturday = new Date(dateBase.setDate(lastSunday.getDate() + 6 + 7));
+        return { lastSunday, nextSaturday };
+    }
+
+    const weekday = useMemo(() => ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], []);
+    const columns = weekday.map((day, id) => { return { id: id, day: day } });
+    const dates: DatesProps[] = useMemo(() => weekday.map((day, id) => { return { id: id, day: day, attendances: null } }), [weekday]);
+
+    const [datesState, setDatesState] = useState(dates);
+
+    useEffect(() => {
+        if (user) {
+            const { lastSunday, nextSaturday } = getLastSundayAndNextSaturday(dateBase);
+
+            const startDate = lastSunday.toISOString().split('T')[0];
+            const endDate = nextSaturday.toISOString().split('T')[0];
+
+            fetch(`http://localhost:8080/attendance/week?startDate=${startDate}&endDate=${endDate}`, {
+                headers: {
+                    'Authorization': `Basic ${user?.credential}`
                 }
-            ]
-        },
-        {
-            id: 1,
-            day: "Mon",
-            attendances: [
-                {
-                    id: 60,
-                    start: '13:00',
-                    end: '13:45',
-                    customer: 'Teste2',
-                    performed: false,
-                },
-            ]
-        },
-        {
-            id: 2,
-            day: "Tue",
-            attendances: null
-        },
-        {
-            id: 3,
-            day: "Wed",
-            attendances: null
-        },
-        {
-            id: 4,
-            day: "Thur",
-            attendances: null
-        },
-        {
-            id: 5,
-            day: "Fri",
-            attendances: null
-        },
-        {
-            id: 6,
-            day: "Sat",
-            attendances: null
+            })
+                .then(response => response.json())
+                .then(data => data.map((element: any) => {
+                    const date = new Date(element.startTime)
+                    dates[date.getDay()].attendances = dates[date.getDay()].attendances ? dates[date.getDay()].attendances : [];
+                    dates[date.getDay()].attendances?.push({ id: element.id, customer: element.customerName, start: element.startTime, end: element.endTime, performed: element.performed })
+                    setDatesState([...dates]);
+                }))
         }
-    ]
-
-    const columns = dates.map(date => {
-        return { id: date.id, day: date.day };
-    });
+    }, [user, dateBase, router, weekday, dates]);
 
     const initialGroup: { [key: string]: any } = {};
 
-    const groupedAttendances = dates.reduce((acc, cur) => {
+    const groupedAttendances = datesState.reduce((acc, cur) => {
         if (cur.attendances) {
             cur.attendances.forEach((attendance) => {
                 const key = attendance.start;
@@ -98,18 +76,17 @@ export default function Scheduler() {
 
     const flattenedAttendances = Object.values(groupedAttendances).map((arr) => arr.flat());
 
-    const hours = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
-
     const result: any[][] = [];
 
-    hours.forEach(hour => {
+    [...Array(25)].forEach((_, i) => {
         const length = result.push([]);
-        dates.forEach(date => {
+        datesState.forEach(date => {
+
             const attendances = flattenedAttendances
-                .filter(attandances => attandances[0]?.start.split(':')[0] == hour.split(':')[0])
+                .filter(attandances => attandances[0]?.start.split('T')[1].split(':')[0] == i)
                 .map(attandances => attandances.filter((attendance: any) => attendance?.day === date.day))
                 .flat();
-            result[length - 1].push({ id: hour + date.day, content: attendances });
+            result[length - 1].push({ id: i + date.day, content: attendances });
         })
     });
 

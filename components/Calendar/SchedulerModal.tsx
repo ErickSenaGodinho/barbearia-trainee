@@ -6,10 +6,12 @@ import TimePicker from "../TimePicker/TimePicker";
 interface SchedulerModalProps {
     isOpen: boolean;
     onOpenChange: () => void;
+    start?: string,
+    end?: string
 }
 
-export default function SchedulerModal({ isOpen, onOpenChange }: Readonly<SchedulerModalProps>) {
-
+export default function SchedulerModal({ isOpen, onOpenChange, start, end }: Readonly<SchedulerModalProps>) {
+    
     return (
         <Modal
             isOpen={isOpen}
@@ -21,10 +23,10 @@ export default function SchedulerModal({ isOpen, onOpenChange }: Readonly<Schedu
                     <>
                         <ModalHeader className="flex flex-col gap-1">Agendar Atendimento</ModalHeader>
                         <ModalBody>
-                            <DateInput />
+                            <DateInput dateBase={start} />
                             <div className="flex gap-8">
-                                <TimePicker label="Horário de Início" />
-                                <TimePicker label="Horário de Término" />
+                                <TimePicker time={start} label="Horário de Início" />
+                                <TimePicker time={end} label="Horário de Término" />
                             </div>
                         </ModalBody>
                         <ModalFooter>

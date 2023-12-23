@@ -9,8 +9,8 @@ export const siteConfig = {
 			href: "/",
 		},
 		{
-			label: "About",
-			href: "/about",
+			label: "Calendar",
+			href: "/calendar",
 		},
 	],
 	navMenuItems: [
@@ -19,21 +19,9 @@ export const siteConfig = {
 			href: "/profile",
 		},
 		{
-			label: "Dashboard",
-			href: "/dashboard",
-		},
-		{
 			label: "Calendar",
 			href: "/calendar",
-		},
-		{
-			label: "Settings",
-			href: "/settings",
-		},
-		{
-			label: "Logout",
-			href: "/logout",
-		},
+		}
 	],
 	links: {
 		github: "https://github.com/ErickSenaGodinho"

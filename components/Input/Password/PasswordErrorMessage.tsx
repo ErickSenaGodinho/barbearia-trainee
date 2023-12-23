@@ -1,8 +1,8 @@
-interface PasswordDescriptionProps {
+interface PasswordErrorMessageProps {
     failedValidationList: any[]
 }
 
-export default function PasswordDescription({ failedValidationList }: Readonly<PasswordDescriptionProps>) {
+export default function PasswordErrorMessage({ failedValidationList }: Readonly<PasswordErrorMessageProps>) {
     return (
         <ul>
             {

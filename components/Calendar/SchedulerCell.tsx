@@ -1,4 +1,6 @@
 import { Card } from "@nextui-org/card";
+import SchedulerModal from "./SchedulerModal";
+import { useDisclosure } from "@nextui-org/modal";
 
 interface SchedulerCellProps {
     startTime: string,
@@ -16,8 +18,9 @@ interface Space {
 
 export default function SchedulerCell({ startTime, endTime, customer }: Readonly<SchedulerCellProps>) {
 
-    const startTimeSplited = startTime.split(":");
-    const endTimeSplited = endTime.split(":");
+
+    const startTimeSplited = startTime.split('T')[1].split(":");
+    const endTimeSplited = endTime.split('T')[1].split(":");
 
     const [startHour, startMinutes] = startTimeSplited.map(Number.parseFloat);
     const [endHour, endMinutes] = endTimeSplited.map(Number.parseFloat);
@@ -46,10 +49,13 @@ export default function SchedulerCell({ startTime, endTime, customer }: Readonly
         45: "top-35"
     }
 
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
     return (
-        <Card shadow="sm" radius="sm" isPressable className={`absolute flex ${minutes == 15 ? "items-center sm:gap-2" : "flex-col"} w-auto ${heights[minutes]} ${space[startMinutes]} right-2 bottom-2 left-2 p-4 pointer-events-auto bg-green-300`}>
-            <span className={`${minutes == 15 ? "text-xs" : "text-sm"} font-semibold text-gray-500`}>{`${startTime} - ${endTime}`}</span>
-            <span className={`${minutes == 15 ? "text-lg" : "my-auto text-xl"} font-bold text-foreground-500`}>{customer}</span>
+        <Card shadow="sm" radius="sm" isPressable className={`absolute flex ${minutes == 15 ? "items-center sm:gap-2" : "flex-col"} w-auto ${heights[minutes]} ${space[startMinutes]} right-2 bottom-2 left-2 p-4 pointer-events-auto bg-green-300`} onPress={onOpen}>
+            <span className={`${minutes == 15 ? "text-xs" : "text-sm"} font-semibold text-gray-500`}>{`${startTime.split('T')[1].substring(0, 5)} - ${endTime.split('T')[1].substring(0, 5)}`}</span>
+            <span className={`${minutes == 15 ? "text-lg" : "my-auto text-xl"} font-bold text-foreground-500`}>{customer?.split(" ")[0]}</span>
+            <SchedulerModal isOpen={isOpen} onOpenChange={onOpenChange} start={startTime} end={endTime} />
         </Card>
     )
 }

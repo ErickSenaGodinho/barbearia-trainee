@@ -1,21 +1,30 @@
 'use client'
 
 import { Input } from "@nextui-org/input";
-import { useState } from "react";
+import { Ref, useState } from "react";
 
-export default function DateInput() {
+interface DateInputProps {
+    dateBase?: string | Date,
+    inputRef?: Ref<HTMLInputElement>
+}
 
-    const currentDate = new Date(Date.now());
-    currentDate.setHours(0);
+export default function DateInput({ dateBase, inputRef }: DateInputProps) {
+    if (!dateBase) {
+        dateBase = new Date(Date.now())        
+    }
+    dateBase = new Date(dateBase)
+    dateBase?.setHours(0);
 
-    const [date, setDate] = useState(currentDate.toISOString().split('T')[0]);
+    const [date, setDate] = useState(dateBase.toISOString().split('T')[0]);
 
     return (<Input
         label="Data"
         type="date"
+        value={date}
         variant="bordered"
         onValueChange={setDate}
         defaultValue={date}
         placeholder="_"
+        ref={inputRef}
     />)
 }
